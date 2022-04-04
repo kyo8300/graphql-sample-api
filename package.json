@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "sample graphql server",
   "scripts": {
-    "prettier": "prettier --write src/**/*.{js,ts,tsx}"
+    "prettier": "prettier --write src/**/*.{js,ts,tsx}",
+    "dev": "ts-node-dev --transpile-only --no-notify src/server.ts",
+    "build": "tsc"
   },
   "author": "kyo8300",
   "license": "ISC",
@@ -14,6 +16,12 @@
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.6.2",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "apollo-server": "^3.6.7",
+    "graphql": "^16.3.0",
+    "nexus": "^1.3.0"
   }
 }
