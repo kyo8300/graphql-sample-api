@@ -28,7 +28,16 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Post: { // root type
+    id: string; // ID!
+    text: string; // String!
+    title: string; // String!
+  }
   Query: {};
+  User: { // root type
+    id: string; // ID!
+    name: string; // String!
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -42,14 +51,32 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Post: { // field return type
+    id: string; // ID!
+    text: string; // String!
+    title: string; // String!
+  }
   Query: { // field return type
-    ok: boolean; // Boolean!
+    users: NexusGenRootTypes['User'][]; // [User!]!
+  }
+  User: { // field return type
+    id: string; // ID!
+    name: string; // String!
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Post: { // field return type name
+    id: 'ID'
+    text: 'String'
+    title: 'String'
+  }
   Query: { // field return type name
-    ok: 'Boolean'
+    users: 'User'
+  }
+  User: { // field return type name
+    id: 'ID'
+    name: 'String'
   }
 }
 
