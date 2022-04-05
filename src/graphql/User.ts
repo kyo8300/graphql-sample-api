@@ -1,4 +1,5 @@
 import { extendType, objectType } from "nexus";
+import { connectionFromArray } from "graphql-relay";
 
 export const User = objectType({
   name: "User",
@@ -11,10 +12,10 @@ export const User = objectType({
 export const UserQuery = extendType({
   type: "Query",
   definition(t) {
-    t.nonNull.list.nonNull.field("users", {
+    t.connectionField("users", {
       type: "User",
-      resolve() {
-        return [
+      resolve(_, args) {
+        const users = [
           { id: "g34kgnkwer", name: "mike" },
           { id: "kfokfo43kf", name: "bob" },
           { id: "dafegwgwe", name: "oio" },
@@ -29,6 +30,7 @@ export const UserQuery = extendType({
           { id: "43gerwerwbre", name: "fff" },
           { id: "pkgmhkemhk", name: "efe" },
         ];
+        return connectionFromArray(users, args);
       },
     });
   },
