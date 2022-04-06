@@ -40,6 +40,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Mutation: {};
   PageInfo: { // root type
     endCursor?: string | null; // String
     hasNextPage: boolean; // Boolean!
@@ -50,6 +51,10 @@ export interface NexusGenObjects {
     id: string; // ID!
     text: string; // String!
     title: string; // String!
+  }
+  PostNoTitleError: { // root type
+    message: string; // String!
+    statusCode: number; // Int!
   }
   Query: {};
   User: { // root type
@@ -67,16 +72,21 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
+  Error: core.Discriminate<'PostNoTitleError', 'required'>;
 }
 
 export interface NexusGenUnions {
+  PostPayload: core.Discriminate<'Post', 'required'> | core.Discriminate<'PostNoTitleError', 'required'>;
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects & NexusGenUnions
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Mutation: { // field return type
+    createPost: NexusGenRootTypes['Post']; // Post!
+  }
   PageInfo: { // field return type
     endCursor: string | null; // String
     hasNextPage: boolean; // Boolean!
@@ -88,7 +98,12 @@ export interface NexusGenFieldTypes {
     text: string; // String!
     title: string; // String!
   }
+  PostNoTitleError: { // field return type
+    message: string; // String!
+    statusCode: number; // Int!
+  }
   Query: { // field return type
+    post: NexusGenRootTypes['PostPayload']; // PostPayload!
     users: NexusGenRootTypes['UserConnection'] | null; // UserConnection
   }
   User: { // field return type
@@ -103,9 +118,15 @@ export interface NexusGenFieldTypes {
     cursor: string; // String!
     node: NexusGenRootTypes['User'] | null; // User
   }
+  Error: { // field return type
+    message: string; // String!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
+  Mutation: { // field return type name
+    createPost: 'Post'
+  }
   PageInfo: { // field return type name
     endCursor: 'String'
     hasNextPage: 'Boolean'
@@ -117,7 +138,12 @@ export interface NexusGenFieldTypeNames {
     text: 'String'
     title: 'String'
   }
+  PostNoTitleError: { // field return type name
+    message: 'String'
+    statusCode: 'Int'
+  }
   Query: { // field return type name
+    post: 'PostPayload'
     users: 'UserConnection'
   }
   User: { // field return type name
@@ -132,9 +158,18 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'User'
   }
+  Error: { // field return type name
+    message: 'String'
+  }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createPost: { // args
+      text: string; // String!
+      title: string; // String!
+    }
+  }
   Query: {
     users: { // args
       after?: string | null; // String
@@ -146,9 +181,12 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
+  PostPayload: "Post" | "PostNoTitleError"
+  Error: "PostNoTitleError"
 }
 
 export interface NexusGenTypeInterfaces {
+  PostNoTitleError: "Error"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
@@ -157,11 +195,11 @@ export type NexusGenInputNames = never;
 
 export type NexusGenEnumNames = never;
 
-export type NexusGenInterfaceNames = never;
+export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
-export type NexusGenUnionNames = never;
+export type NexusGenUnionNames = keyof NexusGenUnions;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
@@ -169,9 +207,9 @@ export type NexusGenAbstractsUsingStrategyResolveType = never;
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {
+    __typename: true
     isTypeOf: false
-    resolveType: true
-    __typename: false
+    resolveType: false
   }
 }
 
